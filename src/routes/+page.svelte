@@ -1,16 +1,15 @@
 <script lang="ts">
-  let value = "";
-  let target = "";
-
-  let low = -1;
-  let mid = -1;
-  let high = -1;
-  let found = false;
-  let inProgress = false;
-  let generatedSize = 10;
-  let generatedMaxNumber = 100;
-  let generateRandom = false;
-  let delayMs = 2500;
+  let value = "",
+    target = "",
+    low = -1,
+    mid = -1,
+    high = -1,
+    found = false,
+    inProgress = false,
+    generatedSize = 10,
+    generatedMaxNumber = 100,
+    generateRandom = false,
+    delayMs = 2500;
 
   $: numTarget = target.trim() === "" ? NaN : Number(target);
   $: invalidTarget = isNaN(numTarget);
@@ -21,8 +20,7 @@
           .trim()
           .split(/[\s:;,\(\)\[\]{}]+/)
           .map(Number)
-          // Remove NaNs and Infinities
-          .filter(e => isFinite(e))
+          .filter(isFinite)
           .sort((a, b) => a - b);
 
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -61,8 +59,9 @@
   <input
     bind:value
     disabled={inProgress}
+    type="text"
     class="input input-bordered w-[calc(100%-4em)] box-border max-w-2xl mt-10
-    transition duration-500 focus:outline-none"
+    transition duration-500 focus:outline-none placeholder-base-content/50 font-sans"
     placeholder="Input an array"
   />
   <div
@@ -110,7 +109,6 @@
             max="100"
             bind:value={generatedSize}
             class="range"
-            step="1"
           />
           <div
             class="w-full font-mono flex justify-between [&>span]:w-20 text-xs"
@@ -126,7 +124,7 @@
             max="4500"
             bind:value={delayMs}
             class="range"
-            step="1"
+            step="50"
           />
           <div
             class="w-full font-mono flex justify-between [&>span]:w-20 text-xs"
@@ -157,7 +155,6 @@
             max="1000"
             bind:value={generatedMaxNumber}
             class="range transition"
-            step="1"
           />
           <div
             class="w-full font-mono flex justify-between transition [&>span]:w-20 text-xs"
@@ -174,7 +171,7 @@
 
   <div class="grow m-4 flex items-center justify-center">
     <div
-      class="array z-0 gap-1 rounded-3xl flex flex-wrap
+      class="array z-0 gap-1 rounded-badge flex flex-wrap
       overflow-hidden items-center justify-center"
     >
       {#each values as value, i}
@@ -186,10 +183,10 @@
         >
           {#each [value == numTarget && i == mid && found, i == mid, i == low, i == high] as condition, j (j)}
             <span
-              class:bg-lime-600={j == 0 && condition}
-              class:bg-neutral-content={j == 1 && !found && condition}
-              class:bg-red-300={j == 2 && !found && condition}
-              class:bg-blue-300={j == 3 && !found && condition}
+              class:bg-success={j == 0 && condition}
+              class:bg-warning={j == 1 && !found && condition}
+              class:bg-error={j == 2 && !found && condition}
+              class:bg-info={j == 3 && !found && condition}
               class="absolute top-0 bottom-0 left-0 right-0 transition
               duration-500 opacity-50 -z-0"
             />
@@ -198,7 +195,7 @@
             class="px-3 rounded-full self-center mx-2 {value == numTarget &&
               'bg-base-content/10'} {i == mid &&
               value == numTarget &&
-              'bg-lime-600/50'} transition duration-500 relative z-99"
+              'bg-success/60'} transition duration-500 relative z-99"
           >
             {value}
           </div>
@@ -244,7 +241,7 @@
         bind:value={target}
         type="text"
         placeholder="Search for a number"
-        class="input input-bordered focus:outline-none"
+        class="input input-bordered focus:outline-none placeholder-base-content/60"
       />
 
       <button
@@ -264,6 +261,7 @@
 
     <button
       class:opacity-0={!values.length || inProgress}
+      disabled={!values.length || inProgress}
       on:click={() =>
         startBinarySearch(
           Number(
@@ -299,12 +297,3 @@
     </svg>
   </button>
 </main>
-
-<style lang="postcss">
-  :global(body) {
-    z-index: -999;
-    background-image: radial-gradient(hsl(var(--b3)) 1px, transparent 0);
-    background-size: 25px 25px;
-    background-position: -19px -19px;
-  }
-</style>

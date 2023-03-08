@@ -8,8 +8,8 @@ const config = {
   plugins: [require("daisyui")],
 
   daisyui: {
-    themes: ["cupcake"],
-  }
+    themes: true,
+  },
 };
 
 module.exports = config;

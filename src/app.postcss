@@ -4,9 +4,23 @@
 @tailwind utilities;
 
 * {
-  font-family: 'Google Sans', sans-serif;
+  @apply font-sans;
+}
+
+.font-sans {
+  font-family: "Google Sans", sans-serif;
 }
 
 .font-mono {
-  font-family: 'Google Sans Mono', monospace;
+  font-family: "Google Sans Mono", monospace;
+}
+
+body {
+  z-index: -999;
+  background-image: radial-gradient(hsl(var(--b3)) 1px, transparent 0);
+  background-size: 25px 25px;
+  background-position: -19px -19px;
+  @media (prefers-color-scheme: dark) {
+    background-image: radial-gradient(hsl(var(--bc) / 0.15) 1px, transparent 0);
+  }
 }
