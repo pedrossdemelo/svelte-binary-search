@@ -18,7 +18,7 @@
       ? []
       : value
           .trim()
-          .split(/[\s:;,\(\)\[\]{}]+/)
+          .split(/[\s,;.:\t]+/)
           .map(Number)
           .filter(isFinite)
           .sort((a, b) => a - b);

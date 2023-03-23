@@ -1,7 +1,6 @@
 const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
 const tailwindNesting = require("tailwindcss/nesting");
-const cssnano = require("cssnano");
 
 const config = {
   plugins: [
@@ -10,7 +9,6 @@ const config = {
     tailwindcss(),
     //But others, like autoprefixer, need to run after,
     autoprefixer,
-    ...(process.env.NODE_ENV === "production" ? [cssnano] : [cssnano])
   ],
 };
 
