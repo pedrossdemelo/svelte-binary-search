@@ -10,7 +10,6 @@
     generatedMaxNumber = 100,
     generateRandom = false,
     delayMs = 2500;
-
   $: numTarget = target.trim() === "" ? NaN : Number(target);
   $: invalidTarget = isNaN(numTarget);
   $: values =
@@ -22,15 +21,12 @@
           .map(Number)
           .filter(isFinite)
           .sort((a, b) => a - b);
-
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
   const stop = () => {
     inProgress = false;
     low = high = mid = -1;
     found = false;
   };
-
   async function startBinarySearch(search: number) {
     inProgress = true;
     low = 0;
@@ -79,8 +75,6 @@
       Generate array
     </button>
     <div class="dropdown dropdown-end">
-      <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-      <!-- svelte-ignore a11y-label-has-associated-control -->
       <label tabindex="0" class="btn btn-circle btn-ghost btn-xs">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -95,8 +89,6 @@
           /></svg
         >
       </label>
-      <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-      <!-- svelte-ignore a11y-label-has-associated-control -->
       <div
         tabindex="0"
         class="card compact dropdown-content shadow bg-base-100 rounded-box w-96"
@@ -168,7 +160,6 @@
       </div>
     </div>
   </div>
-
   <div class="grow m-4 flex items-center justify-center">
     <div
       class="array z-0 gap-1 rounded-badge flex flex-wrap
@@ -179,7 +170,7 @@
           class="min-w-[5rem] py-2 text-lg text-base-content
           flex rounded flex-col items-center transition-opacity duration-500 relative
           bg-base-200 -z-10 overflow-hidden"
-          class:opacity-20={(i < low || i > high) && inProgress}
+          class:opacity-20={(low > i || i > high) && inProgress}
         >
           {#each [value == numTarget && i == mid && found, i == mid, i == low, i == high] as condition, j (j)}
             <span
@@ -206,7 +197,6 @@
       {/each}
     </div>
   </div>
-
   <div class:opacity-0={mid < 0} class="transition duration-500">
     <div class="grid grid-flow-col gap-5 text-center auto-cols-max">
       <div class="flex flex-col">
@@ -229,7 +219,6 @@
       </div>
     </div>
   </div>
-
   <div class="form-control m-4">
     <form
       on:submit|preventDefault={() =>
@@ -243,7 +232,6 @@
         placeholder="Search for a number"
         class="input input-bordered focus:outline-none placeholder-base-content/60"
       />
-
       <button
         disabled={invalidTarget || inProgress}
         type="submit"
@@ -258,7 +246,6 @@
         </svg>
       </button>
     </form>
-
     <button
       class:opacity-0={!values.length || inProgress}
       disabled={!values.length || inProgress}
@@ -274,7 +261,6 @@
       Search random
     </button>
   </div>
-
   <button
     class="btn btn-primary w-12 h-12 p-1 transition duration-500 absolute
     right-8 bottom-8"
